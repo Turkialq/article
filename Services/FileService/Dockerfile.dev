@@ -1,0 +1,22 @@
+# Use the .NET 8 SDK image to build and run the application
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS base
+WORKDIR /app
+EXPOSE 5134  
+EXPOSE 7032  
+
+# Set environment to Development
+ENV ASPNETCORE_ENVIRONMENT=Development
+ENV DOTNET_USE_POLLING_FILE_WATCHER=1
+
+# Install development tools, if necessary
+# RUN apt-get update && apt-get install -y --no-install-recommends <your-tools>
+
+COPY ["FileService.csproj", "./"]
+RUN dotnet restore "./FileService.csproj"
+
+# Copy the source code and build the application
+COPY . .
+RUN dotnet build "FileService.csproj" -c Debug -o /app/build
+
+# Command to run the application
+ENTRYPOINT ["dotnet", "watch", "run", "--project", "FileService.csproj", "--no-launch-profile", "--urls", "http://+:5134"]
