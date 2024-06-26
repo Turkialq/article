@@ -1,0 +1,23 @@
+# Use the .NET 8 SDK image to build and run the application
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS base
+WORKDIR /app
+EXPOSE 5248
+EXPOSE 7272
+ 
+
+# Set environment to Development
+ENV ASPNETCORE_ENVIRONMENT=Development
+ENV DOTNET_USE_POLLING_FILE_WATCHER=1
+
+# Install development tools, if necessary
+# RUN apt-get update && apt-get install -y --no-install-recommends <your-tools>
+
+COPY ["SearchService.csproj", "./"]
+RUN dotnet restore "./SearchService.csproj"
+
+# Copy the source code and build the application
+COPY . .
+RUN dotnet build "SearchService.csproj" -c Debug -o /app/build
+
+# Command to run the application
+ENTRYPOINT ["dotnet", "watch", "run", "--project", "SearchService.csproj", "--no-launch-profile", "--urls", "http://+:5134"]

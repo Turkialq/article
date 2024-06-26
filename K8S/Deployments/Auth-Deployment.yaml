@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-deployment
+  labels:
+    service: auth 
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      service: auth 
+  template:
+    metadata:
+      labels:
+        service: auth
+    spec:
+      containers:
+      - name: auth
+        image: turkialq/article:auth-service-v1
+        ports:
+        - containerPort: 5134
