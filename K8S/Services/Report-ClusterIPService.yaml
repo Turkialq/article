@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: report-service
+spec:
+  selector:
+    service: report
+  ports:
+    - name: http
+      protocol: TCP
+      port: 5103
+      targetPort: 5103

@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: file-deployment
+  labels:
+    service: file
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      service: file
+  template:
+    metadata:
+      labels:
+        service: file
+    spec:
+      containers:
+        - name: file
+          image: turkialq/article:file-service-v1
+          ports:
+            - containerPort: 5057

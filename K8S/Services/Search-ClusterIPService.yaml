@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: search-service
+spec:
+  selector:
+    service: search
+  ports:
+    - name: http
+      protocol: TCP
+      port: 5248
+      targetPort: 5248

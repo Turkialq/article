@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: report-deployment
+  labels:
+    service: report
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      service: report
+  template:
+    metadata:
+      labels:
+        service: report
+    spec:
+      containers:
+        - name: report
+          image: turkialq/article:report-service-v1
+          ports:
+            - containerPort: 5103

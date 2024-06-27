@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: search-deployment
+  labels:
+    service: search
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      service: search
+  template:
+    metadata:
+      labels:
+        service: search
+    spec:
+      containers:
+        - name: search
+          image: turkialq/article:search-service-v1
+          ports:
+            - containerPort: 5248
